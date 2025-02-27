@@ -1,5 +1,5 @@
 # php-mood-tracker
-# Mood Tracker
+## Mood Tracker
 
 Version 1
 
