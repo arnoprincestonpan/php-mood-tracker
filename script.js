@@ -30,4 +30,6 @@ submitButton.addEventListener('click', () => {
         moodInput.value = '';
         fetchMoods();
     });
-})
+});
+
+fetchMoods();
