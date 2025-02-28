@@ -7,7 +7,7 @@ function App() {
   const [moods, setMoods] = useState([]);
 
   // location of api is in back-end folder
-  const backendBaseURL = 'http://localhost:8000/back-end/api.php'
+  const backendBaseURL = 'http://localhost:8000/api.php'
 
   // GET the moods right when App.jsx loads
   useEffect(() => {
@@ -18,7 +18,8 @@ function App() {
   const fetchMoods = async() => {
     try {
       const response = await axios.get(backendBaseURL);
-      setMoods(response.date);
+      console.log(response.data);
+      setMoods(response.data);
     } catch (error){
       console.error('Error fetching moods:', error);
     }
@@ -28,11 +29,14 @@ function App() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try{
-      const response = await axios.post(backendBaseURL, `mood=${encodeURIComponent(mood)}`, {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      });
+      const response = await axios.post(
+        backendBaseURL, 
+        { mood },
+        { headers: {'Content-Type' : 'application/json'}}
+      );
+
       if(response.data.success === false){
-        alert(response.date.error);
+        alert(response.data.error);
       } else {
         setMood('');
         fetchMoods();
@@ -46,7 +50,7 @@ function App() {
     <>
       <div className="App">
         <h1>Mood Tracker</h1>
-        <form>
+        <form onSubmit={handleSubmit}>
           <label htmlFor='mood'>
           Your Latest Mood
           <br/>
@@ -63,11 +67,15 @@ function App() {
           </button>
         </form>
         <ul>
-            {moods.map(mood => 
-              <li key={mood.id}>
-                {mood.mood} - {new Date(mood.timestamp * 1000).toLocaleDateString()}
-              </li>
-            )}
+            {
+              moods ? moods.map((mood) => (
+                <li key={mood.id}>
+                    {mood.mood} | {new Date(mood.timestamp * 1000).toLocaleDateString()}
+                </li>
+              ))
+              :
+              <li>There are no moods.</li>
+            }
         </ul>
       </div>
     </>
