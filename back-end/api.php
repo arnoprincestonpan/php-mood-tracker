@@ -11,7 +11,7 @@ header("Access-Control-Allow-Headers: Content-Type");
 
 // Before I send the Data would the Server Allow my Request? Handle OPTIOPNS request
 if($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    https_response_code(204);
+    http_response_code(204);
     exit;
 }
 
