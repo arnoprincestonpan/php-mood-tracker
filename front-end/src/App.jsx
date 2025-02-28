@@ -25,6 +25,22 @@ function App() {
   }
 
   // POST
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try{
+      const response = await axios.post(backendBaseURL, `mood=${encodeURIComponent(mood)}`, {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      });
+      if(response.data.success === false){
+        alert(response.date.error);
+      } else {
+        setMood('');
+        fetchMoods();
+      }
+    } catch (error) {
+      console.error('Error Submitting Mood', error);
+    }
+  }
 
   return (
     <>
@@ -36,26 +52,26 @@ function App() {
           <br/>
           <input
             name="mood"
-            type="type"
+            type="text"
             value={mood}
-            noChange={(e) => setMood(e.target.value)}
+            onChange={(e) => setMood(e.target.value)}
             placeholder="Enter your mood."
           />
           </label>
           <button type="submit">
             Submit
           </button>
-          <ul>
-            {moods.map(mood => {
+        </form>
+        <ul>
+            {moods.map(mood => 
               <li key={mood.id}>
                 {mood.mood} - {new Date(mood.timestamp * 1000).toLocaleDateString()}
               </li>
-            })}
-          </ul>
-        </form>
+            )}
+        </ul>
       </div>
     </>
   )
 }
 
-export default App
+export default App;
