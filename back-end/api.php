@@ -6,7 +6,7 @@ $db->exec('CREATE TABLE IF NOT EXISTS moods (id INTEGER PRIMARY KEY AUTOINCREMEN
 
 // Enable CORS
 header("Access-Control-Allow-Origin: *"); // replace * with URL if deploying
-header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+header("Access-Control-Allow-Methods: GET, POST, DELETE, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
 
 // Before I send the Data would the Server Allow my Request? Handle OPTIOPNS request

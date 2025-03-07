@@ -47,7 +47,6 @@ function App() {
 
   // DELETE
   const handleDeleteSubmit = async(moodId) => {
-    e.preventDefault();
     try {
       const response = await axios.delete(`${backendBaseURL}?id=${moodId}`);
       fetchMoods();
@@ -87,7 +86,7 @@ function App() {
                   <li className="list-group-item" key={mood.id}>
                   {mood.mood} | {new Date(mood.timestamp * 1000).toLocaleDateString()}
                   </li>
-                  <button onClick={handleDeleteSubmit(mood.id)}>Delete</button>
+                  <button onClick={() => handleDeleteSubmit(mood.id)}>Delete</button>
                 </div>
               ))
               :
