@@ -54,6 +54,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
         $moods[] = $row;
     }
     echo json_encode($moods ?: []);
+} else if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
+    // make sure there is such id via query
+    $moodId = isset($_GET['id']) ? $_GET['id'] : null;
+    
+    if ($moodId !== null){
+        $stmt = $db->prepare('DELETE FROM moods WHERE id = :id');
+        $stmt->bindValue(':id', $moodId, SQLITE3_INTEGER);
+        $result = $stmt->execute();
+
+        if($result){
+            echo json_encode(['success' => true, 'message' => 'Mood deleted successfully.']);
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Error deleting mood.']);
+        }
+    } else {
+        echo json_encode(['success' => false, 'error' => 'moodId not provided.']);
+    }
 }
 
 $db->close();

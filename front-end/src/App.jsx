@@ -45,6 +45,18 @@ function App() {
     }
   }
 
+  // DELETE
+  const handleDeleteSubmit = async(moodId) => {
+    e.preventDefault();
+    try {
+      const response = await axios.delete(`${backendBaseURL}?id=${moodId}`);
+      fetchMoods();
+    } catch (error){
+      console.error('Error deleting mood:', error);
+      alert('Failed to delete mood.');
+    }
+  }
+
   return (
     <>
       <div className="container mt-4">
@@ -71,9 +83,12 @@ function App() {
         <ul className='list-group'>
             {
               moods ? moods.map((mood) => (
-                <li className="list-group-item" key={mood.id}>
-                    {mood.mood} | {new Date(mood.timestamp * 1000).toLocaleDateString()}
-                </li>
+                <div>
+                  <li className="list-group-item" key={mood.id}>
+                  {mood.mood} | {new Date(mood.timestamp * 1000).toLocaleDateString()}
+                  </li>
+                  <button onClick={handleDeleteSubmit(mood.id)}>Delete</button>
+                </div>
               ))
               :
               <li className='list-group-item'>There are no moods.</li>
